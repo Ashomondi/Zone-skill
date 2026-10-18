@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	"skill-match/backend/middleware"
-	"skill-match/backend/models"
-	"skill-match/backend/services"
-	"skill-match/backend/utils"
+	"zone-skill/backend/middleware"
+	"zone-skill/backend/models"
+	"zone-skill/backend/services"
+	"zone-skill/backend/utils"
 )
 
 type SavedJobsHandler struct{ service *services.SavedJobService }

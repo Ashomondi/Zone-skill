@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"skill-match/backend/repositories"
+	"zone-skill/backend/repositories"
 )
 
 type JobSource interface {

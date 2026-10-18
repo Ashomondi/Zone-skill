@@ -19,7 +19,7 @@ const GoogleMark = () => (
 
 const Brand = ({ mobile = false }: { mobile?: boolean }) => (
   <Link to="/" className={mobile ? 'inline-block text-center' : 'inline-block'}>
-    <span className="font-serif text-[24px] tracking-[-0.03em] text-[#3A2A1C]">Skill-match</span>
+    <span className="font-serif text-[24px] tracking-[-0.03em] text-[#3A2A1C]">ZoneSkill</span>
     <span className="mt-1 block border-b-2 border-[#B08D57]" />
   </Link>
 );
@@ -46,7 +46,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, register = fal
       ];
 
   return (
-    <div className="flex min-h-screen bg-[#F6F0E6]">
+    <div className="flex min-h-screen bg-[#f8e7c9]">
       <aside className="relative hidden min-h-screen w-[45%] flex-col overflow-hidden bg-[#E3D7C4] p-12 lg:flex xl:p-16">
         <Brand />
         <div className="mt-auto mb-[12%] max-w-[380px]">
@@ -122,9 +122,9 @@ export const Login: React.FC = () => {
           {passwordError ? <p className="mt-1 text-xs text-[#B5573C]">{passwordError}</p> : null}
         </div>
         {error ? <div role="alert" className="flex gap-2 rounded border border-[#B5573C] bg-[#B5573C]/10 p-3 text-sm text-[#3A2A1C]"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#B5573C]" />{error || "That email and password don't match."}</div> : null}
-        <button type="submit" disabled={isSubmitting} className="flex h-11 w-full items-center justify-center rounded bg-[#5C3A21] text-[15px] font-semibold text-[#F6F0E6] transition hover:bg-[#4A2F1A] hover:shadow-[0px_4px_16px_rgba(92,58,33,0.14)] disabled:pointer-events-none disabled:opacity-70">{isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Log in'}</button>
+        <button type="submit" disabled={isSubmitting} className="flex h-11 w-full items-center justify-center rounded bg-[#5C3A21] text-[15px] font-semibold text-[#f8e7c9] transition hover:bg-[#4A2F1A] hover:shadow-[0px_4px_16px_rgba(92,58,33,0.14)] disabled:pointer-events-none disabled:opacity-70">{isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Log in'}</button>
       </form>
-      <div className="my-6 flex items-center gap-3"><span className="h-px flex-1 bg-[#D8C9B2]" /><span className="bg-[#F6F0E6] px-2 text-xs text-[#8A7B6B]">or</span><span className="h-px flex-1 bg-[#D8C9B2]" /></div>
+      <div className="my-6 flex items-center gap-3"><span className="h-px flex-1 bg-[#D8C9B2]" /><span className="bg-[#f8e7c9] px-2 text-xs text-[#8A7B6B]">or</span><span className="h-px flex-1 bg-[#D8C9B2]" /></div>
       <button type="button" className="flex h-11 w-full items-center justify-center gap-3 rounded border border-[#3A2A1C]/40 text-[15px] font-medium text-[#3A2A1C]"><GoogleMark />Continue with Google</button>
       <p className="mt-7 text-center text-sm text-[#8A7B6B]">Don&apos;t have an account? <Link to="/register" className="font-semibold text-[#3A2A1C] hover:underline">Sign up</Link></p>
     </AuthLayout>

@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"skill-match/backend/models"
-	"skill-match/backend/repositories"
+	"zone-skill/backend/models"
+	"zone-skill/backend/repositories"
 )
 
 // fakeStorage is an in-memory ObjectStorage.

@@ -1,10 +1,10 @@
 openapi: 3.0.3
 
 info:
-  title: Skill-Match API
+  title: ZoneSkill API
   version: 1.0.0
   description: |
-    REST API documentation for the Skill-Match application.
+    REST API documentation for the ZoneSkill application.
 
     The resume API allows authenticated users to upload, update,
     and delete their resumes.

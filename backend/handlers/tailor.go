@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"skill-match/backend/middleware"
-	"skill-match/backend/services"
+	"zone-skill/backend/middleware"
+	"zone-skill/backend/services"
 )
 
 type TailorHandler struct{ ai *services.AIService }

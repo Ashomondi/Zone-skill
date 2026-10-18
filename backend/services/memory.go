@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"skill-match/backend/models"
-	"skill-match/backend/repositories"
+	"zone-skill/backend/models"
+	"zone-skill/backend/repositories"
 )
 
 // Sentinel errors for memory operations.

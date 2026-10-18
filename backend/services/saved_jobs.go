@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"github.com/google/uuid"
-	"skill-match/backend/models"
-	"skill-match/backend/repositories"
 	"strings"
+	"zone-skill/backend/models"
+	"zone-skill/backend/repositories"
 )
 
 var (

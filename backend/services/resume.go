@@ -7,9 +7,9 @@ import (
 	"reflect"
 	"time"
 
-	"skill-match/backend/models"
-	"skill-match/backend/repositories"
-	"skill-match/backend/utils"
+	"zone-skill/backend/models"
+	"zone-skill/backend/repositories"
+	"zone-skill/backend/utils"
 )
 
 var (

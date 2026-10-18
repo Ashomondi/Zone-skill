@@ -31,7 +31,7 @@ export const CvPicker: React.FC<CvPickerProps> = ({
   onUpload,
   onSelect,
   title = 'Your CV',
-  description = 'Upload your master CV. SkillMatch parses it so the assistant and the CV tailor can work from your real experience.',
+  description = 'Upload your master CV. ZoneSkill parses it so the assistant and the CV tailor can work from your real experience.',
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [replaceMode, setReplaceMode] = useState(false);

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"skill-match/backend/middleware"
-	"skill-match/backend/services"
+	"zone-skill/backend/middleware"
+	"zone-skill/backend/services"
 )
 
 type RecommendationHandler struct {

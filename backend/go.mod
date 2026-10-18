@@ -1,4 +1,4 @@
-module skill-match/backend
+module zone-skill/backend
 
 go 1.25.0
 

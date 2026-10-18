@@ -8,7 +8,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"skill-match/backend/utils"
+	"zone-skill/backend/utils"
 )
 
 const requestIDHeader = "X-Request-ID"

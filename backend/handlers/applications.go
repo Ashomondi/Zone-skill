@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	"skill-match/backend/middleware"
-	"skill-match/backend/models"
-	"skill-match/backend/repositories"
-	"skill-match/backend/services"
+	"zone-skill/backend/middleware"
+	"zone-skill/backend/models"
+	"zone-skill/backend/repositories"
+	"zone-skill/backend/services"
 )
 
 type ApplicationHandler struct {

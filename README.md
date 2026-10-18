@@ -1,4 +1,4 @@
-# SkillMatch
+# ZoneSkill
 
 An AI-powered job-search assistant with **persistent agentic memory**. Built
 for the CockroachDB × AWS hackathon and migrated to PostgreSQL: PostgreSQL
@@ -51,7 +51,7 @@ For local development, spin up a pgvector-enabled container:
 or create the database manually:
 
 ```sql
-CREATE DATABASE skillmatch;
+CREATE DATABASE zoneskill;
 ```
 
 ### 2. Backend

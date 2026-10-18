@@ -1,6 +1,6 @@
 # Contributors
 
-SkillMatch is built for the CockroachDB × AWS hackathon by a five-person team.
+ZoneSkill is built for the CockroachDB × AWS hackathon by a five-person team.
 Backend work is split into the layers below; every layer uses the canonical
 `models` package as its source of truth.
 

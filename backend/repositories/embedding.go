@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/pgvector/pgvector-go"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 // EmbeddingDim is the fixed vector dimension enforced by the VECTOR(1024)

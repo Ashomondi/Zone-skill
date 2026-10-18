@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 var (

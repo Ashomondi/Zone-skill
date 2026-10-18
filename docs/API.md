@@ -1,4 +1,4 @@
-# SkillMatch API
+# ZoneSkill API
 
 Base URL: `{VITE_API_BASE_URL}` / the backend's `PORT`. All responses are JSON
 unless noted. Auth-protected endpoints require an `Authorization: Bearer

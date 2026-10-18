@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"skill-match/backend/utils"
+	"zone-skill/backend/utils"
 )
 
 type HealthHandler struct {

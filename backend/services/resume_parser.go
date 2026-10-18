@@ -11,8 +11,8 @@ import (
 
 	"github.com/ledongthuc/pdf"
 
-	"skill-match/backend/models"
-	"skill-match/backend/utils"
+	"zone-skill/backend/models"
+	"zone-skill/backend/utils"
 )
 
 // ParseResume extracts plain text from a resume file and returns a Resume

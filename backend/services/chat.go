@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 // Sentinel errors for chat operations.
@@ -145,7 +145,7 @@ func buildChatPrompt(
 	var builder strings.Builder
 
 	builder.WriteString(
-		"You are Skill-match, an AI assistant that helps users with job searching, resumes and career-related questions.\n\n",
+		"You are ZoneSkill, an AI assistant that helps users with job searching, resumes and career-related questions.\n\n",
 	)
 
 	if len(history) > 0 {

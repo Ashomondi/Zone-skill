@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"skill-match/backend/repositories"
-	"skill-match/backend/utils"
+	"zone-skill/backend/repositories"
+	"zone-skill/backend/utils"
 )
 
 var (

@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"skill-match/backend/clients"
-	"skill-match/backend/repositories"
+	"zone-skill/backend/clients"
+	"zone-skill/backend/repositories"
 )
 
 // TestResumeStorageIntegration covers the full resume storage flow
@@ -51,7 +51,7 @@ func TestResumeStorageIntegration(t *testing.T) {
 
 	userRepo := repositories.NewUserRepository(pool)
 	user, err := userRepo.Create(ctx, &repositories.User{
-		Email:        fmt.Sprintf("integration-%d@skillmatch.local", time.Now().UnixNano()),
+		Email:        fmt.Sprintf("integration-%d@zoneskill.local", time.Now().UnixNano()),
 		PasswordHash: "integration-placeholder-hash",
 		FullName:     "Integration Tester",
 	})

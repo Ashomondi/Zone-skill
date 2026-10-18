@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"strings"
 
-	"skill-match/backend/clients"
-	"skill-match/backend/repositories"
-	"skill-match/backend/utils"
+	"zone-skill/backend/clients"
+	"zone-skill/backend/repositories"
+	"zone-skill/backend/utils"
 )
 
 var (

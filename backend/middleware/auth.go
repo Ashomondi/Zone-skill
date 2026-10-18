@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"skill-match/backend/utils"
+	"zone-skill/backend/utils"
 )
 
 type contextKey string

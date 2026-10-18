@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Local PostgreSQL dev setup for SkillMatch.
+# Local PostgreSQL dev setup for ZoneSkill.
 #
 # Spins up a pgvector-enabled PostgreSQL 16 container (the pgvector
 # extension ships in the image, so embeddings/VECTOR columns work out of
@@ -11,10 +11,10 @@
 
 set -euo pipefail
 
-DB_NAME="${DB_NAME:-skillmatch}"
-DB_USER="${DB_USER:-skillmatch}"
-DB_PASSWORD="${DB_PASSWORD:-skillmatch}"
-CONTAINER_NAME="${CONTAINER_NAME:-skillmatch-pg}"
+DB_NAME="${DB_NAME:-zoneskill}"
+DB_USER="${DB_USER:-zoneskill}"
+DB_PASSWORD="${DB_PASSWORD:-zoneskill}"
+CONTAINER_NAME="${CONTAINER_NAME:-zoneskill-pg}"
 PORT="${POSTGRES_PORT:-5432}"
 
 if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then

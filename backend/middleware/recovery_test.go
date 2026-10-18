@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"skill-match/backend/utils"
+	"zone-skill/backend/utils"
 )
 
 func TestRecoveryReturnsSafeJSON(t *testing.T) {

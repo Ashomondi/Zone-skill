@@ -47,7 +47,7 @@ func (s *ExternalJobSource) get(ctx context.Context, url string, target any) err
 	if err != nil {
 		return err
 	}
-	req.Header.Set("User-Agent", "SkillMatch/1.0")
+	req.Header.Set("User-Agent", "ZoneSkill/1.0")
 	res, err := s.Client.Do(req)
 	if err != nil {
 		return err

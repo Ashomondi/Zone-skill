@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	"skill-match/backend/middleware"
-	"skill-match/backend/services"
-	"skill-match/backend/utils"
+	"zone-skill/backend/middleware"
+	"zone-skill/backend/services"
+	"zone-skill/backend/utils"
 )
 
 // ChatHandler handles authenticated chat requests.

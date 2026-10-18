@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 // Sentinel errors for resume operations.

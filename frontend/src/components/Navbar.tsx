@@ -16,7 +16,7 @@ export const Navbar: React.FC = () => {
 
   return <header className="sticky top-0 z-30 border-b border-[var(--border-hairline)] bg-[var(--bg-nav)]/95 backdrop-blur">
     <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
-      <Link to="/dashboard" className="shrink-0 font-serif text-xl font-bold text-[var(--text-heading)]">Skill-match</Link>
+      <Link to="/dashboard" className="shrink-0 font-serif text-xl font-bold text-[var(--text-heading)]">ZoneSkill</Link>
       {isAuthenticated && <nav className="hidden items-center md:flex">{links.map(([to,label]) => <NavLink key={to} to={to} className={navClass}>{label}</NavLink>)}</nav>}
       <div className="flex items-center gap-2 text-sm">{isAuthenticated ? <><span className="hidden max-w-40 truncate text-[var(--text-muted)] lg:block">Hi, {user?.fullName || 'User'}</span><button type="button" onClick={handleLogout} className="hidden rounded-md border border-[var(--text-button-fill)] px-3 py-2 font-medium text-[var(--text-button-fill)] sm:block">Log out</button><button type="button" onClick={() => setOpen((value) => !value)} className="grid h-10 w-10 place-items-center rounded-md text-[var(--text-heading)] md:hidden" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open}>{open ? <X size={21} /> : <Menu size={21} />}</button></> : <><Link to="/login" className="px-2 py-2 text-[var(--text-heading)]">Log in</Link><Link to="/register" className="rounded-md bg-[var(--btn-primary-bg)] px-4 py-2 font-semibold text-[var(--btn-primary-text)]">Sign up</Link></>}</div>
     </div>

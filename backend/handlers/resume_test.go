@@ -12,11 +12,11 @@ import (
 	"testing"
 	"time"
 
-	"skill-match/backend/middleware"
-	"skill-match/backend/models"
-	"skill-match/backend/repositories"
-	"skill-match/backend/services"
-	"skill-match/backend/utils"
+	"zone-skill/backend/middleware"
+	"zone-skill/backend/models"
+	"zone-skill/backend/repositories"
+	"zone-skill/backend/services"
+	"zone-skill/backend/utils"
 )
 
 type handlerFakeStorage struct {

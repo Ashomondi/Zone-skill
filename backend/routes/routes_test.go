@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"skill-match/backend/handlers"
-	"skill-match/backend/services"
-	"skill-match/backend/utils"
+	"zone-skill/backend/handlers"
+	"zone-skill/backend/services"
+	"zone-skill/backend/utils"
 )
 
 func TestRegisterHealthMakesEndpointAvailable(t *testing.T) {

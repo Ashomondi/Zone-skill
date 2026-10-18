@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"runtime/debug"
 
-	"skill-match/backend/utils"
+	"zone-skill/backend/utils"
 )
 
 func Recovery(next http.Handler) http.Handler {

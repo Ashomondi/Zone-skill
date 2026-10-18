@@ -12,7 +12,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 // Issue #41 — conversation persistence workflow.
@@ -41,7 +41,7 @@ func createTestUser(t *testing.T, pool *pgxpool.Pool) *User {
 	t.Helper()
 	userRepo := NewUserRepository(pool)
 	user, err := userRepo.Create(context.Background(), &User{
-		Email:        fmt.Sprintf("it-%d@skillmatch.local", time.Now().UnixNano()),
+		Email:        fmt.Sprintf("it-%d@zoneskill.local", time.Now().UnixNano()),
 		PasswordHash: "integration-placeholder-hash",
 		FullName:     "Integration Tester",
 	})

@@ -3,9 +3,9 @@ package routes
 import (
 	"net/http"
 
-	"skill-match/backend/handlers"
-	"skill-match/backend/middleware"
-	"skill-match/backend/utils"
+	"zone-skill/backend/handlers"
+	"zone-skill/backend/middleware"
+	"zone-skill/backend/utils"
 )
 
 type RegisterFunc func(mux *http.ServeMux)

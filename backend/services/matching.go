@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"skill-match/backend/repositories"
+	"zone-skill/backend/repositories"
 )
 
 type MatchingService struct{}

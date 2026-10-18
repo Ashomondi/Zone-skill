@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { resumeService, Resume } from '../services/resume';
 
-const ACTIVE_CV_KEY = 'skillmatch-active-cv';
+const ACTIVE_CV_KEY = 'zoneskill-active-cv';
 
 const readActiveId = (): string => {
   try {

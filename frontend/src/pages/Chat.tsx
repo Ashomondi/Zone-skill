@@ -8,7 +8,7 @@ import { chatService, Conversation } from '../services/chat';
 import { useResumeContext } from '../hooks/useResumeContext';
 import { isResumeReady } from '../services/resume';
 
-const INCLUDE_CV_KEY = 'skillmatch-include-cv';
+const INCLUDE_CV_KEY = 'zoneskill-include-cv';
 const initialIncludeCv = () => { try { return localStorage.getItem(INCLUDE_CV_KEY) !== '0'; } catch { return true; } };
 
 const initialState = () => {
@@ -60,7 +60,7 @@ export const Chat: React.FC = () => {
           <div className="mb-6 flex items-start gap-3">
             <button type="button" onClick={() => setSidebarOpen(true)} aria-label="Open conversation history" title="Conversation history" className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-md border border-[var(--border-hairline)] bg-[var(--bg-secondary)] text-[var(--text-heading)] lg:hidden"><Menu size={20} /></button>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent-gold)]">SkillMatch assistant</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent-gold)]">ZoneSkill assistant</p>
               <h1 className="mt-2 font-serif text-3xl font-bold text-[var(--text-heading)] sm:text-4xl">Your career, with a memory.</h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--text-muted)]">Ask about roles, tailor your experience, or plan your next application.</p>
             </div>

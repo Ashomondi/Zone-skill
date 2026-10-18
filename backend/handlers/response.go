@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"skill-match/backend/utils"
+	"zone-skill/backend/utils"
 )
 
 func writeJSON(w http.ResponseWriter, status int, data any) {

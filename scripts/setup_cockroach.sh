@@ -27,7 +27,7 @@
 # 	CREATE USER <replace_with_username> WITH PASSWORD 'your_prefered_db_password';
 # 	
 # 	# after that we need to create our database
-# 	CREATE DATABASE skillmatch;
+# 	CREATE DATABASE zoneskill;
 #
 # first make sure you're on the directory contain the cockroachdb executable
 
@@ -65,6 +65,6 @@ printf "\nyou're all set, cockroach says, 'have fun'\n\n"
 #
 # now on our go backend we need to put a database connection url in the .env file
 # here is an example that worked for me:
-# postgresql://skinyanju@LAP-010:26257/skillmatch?sslcert=../cockroach-v26.2.0.linux-amd64/certs%2Fclient.skinyanju.crt&sslkey=../cockroach-v26.2.0.linux-amd64/certs%2Fclient.skinyanju.key&sslmode=verify-full&sslrootcert=../cockroach-v26.2.0.linux-amd64/certs%2Fca.crt
+# postgresql://skinyanju@LAP-010:26257/zoneskill?sslcert=../cockroach-v26.2.0.linux-amd64/certs%2Fclient.skinyanju.crt&sslkey=../cockroach-v26.2.0.linux-amd64/certs%2Fclient.skinyanju.key&sslmode=verify-full&sslrootcert=../cockroach-v26.2.0.linux-amd64/certs%2Fca.crt
 # now this will only work if you have the cockroach directory in the project folder 
 # as well you'll need to configure the username to yours specifically

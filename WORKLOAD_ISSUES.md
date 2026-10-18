@@ -1,6 +1,6 @@
-# SkillMatch — Remaining Workload Issues
+# ZoneSkill — Remaining Workload Issues
 
-Goal: everything below is the work still needed to take SkillMatch from its current
+Goal: everything below is the work still needed to take ZoneSkill from its current
 "partially wired, partially stubbed" state to a working product. Each issue is an
 assignable unit of work (bug fix or feature) targeting production-quality code.
 
@@ -468,7 +468,7 @@ nothing because the backend is a stub (Issue #1). Once the backend is real:
 
 **Description:**
 `services/chat.ts` persists conversations only in localStorage
-(`skillmatch-conversations`) and sends a `history` array to `POST /api/chat` that the
+(`zoneskill-conversations`) and sends a `history` array to `POST /api/chat` that the
 backend ignores (its `chatRequest` only accepts `message` + `resumeId`). The backend
 already persists conversation turns per user (`003_memory`, `repositories/conversation.go`)
 and builds history server-side. Today history is device-local, silently dropped on the

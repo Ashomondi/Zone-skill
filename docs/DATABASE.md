@@ -1,4 +1,4 @@
-# SkillMatch — Data Model
+# ZoneSkill — Data Model
 
 This document describes the persistent storage layout: the PostgreSQL schema
 and the S3 (MinIO) object store. Migrations live in `backend/migrations/*.sql`

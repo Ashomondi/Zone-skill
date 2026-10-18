@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"skill-match/backend/utils"
+	"zone-skill/backend/utils"
 )
 
 func TestUnauthenticatedRequestRejected(t *testing.T) {

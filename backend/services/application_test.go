@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 type fakeApplicationRepo struct {

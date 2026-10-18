@@ -1,8 +1,8 @@
-# SkillMatch Architecture
+# ZoneSkill Architecture
 
 ## 1. Overview
 
-SkillMatch is an AI-powered job-search assistant that uses PostgreSQL (with
+ZoneSkill is an AI-powered job-search assistant that uses PostgreSQL (with
 the pgvector extension) as a **persistent memory layer**. Users register,
 upload a resume, chat with an AI assistant that remembers prior conversations,
 and get personalized job recommendations derived from resume/job embeddings

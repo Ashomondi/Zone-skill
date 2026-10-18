@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"skill-match/backend/repositories"
-	"skill-match/backend/services"
+	"zone-skill/backend/repositories"
+	"zone-skill/backend/services"
 )
 
 type JobsHandler struct {

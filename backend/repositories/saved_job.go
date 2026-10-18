@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 var (

@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"skill-match/backend/repositories"
+	"zone-skill/backend/repositories"
 )
 
 type RecommendationService struct {

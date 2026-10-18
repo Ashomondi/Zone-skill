@@ -11,8 +11,8 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"skill-match/backend/models"
-	"skill-match/backend/repositories"
+	"zone-skill/backend/models"
+	"zone-skill/backend/repositories"
 )
 
 // Issue #41 — persistent memory workflow: information stored during one
@@ -41,7 +41,7 @@ func memoryTestUser(t *testing.T, pool *pgxpool.Pool) *repositories.User {
 	t.Helper()
 	userRepo := repositories.NewUserRepository(pool)
 	user, err := userRepo.Create(context.Background(), &repositories.User{
-		Email:        fmt.Sprintf("mem-%d@skillmatch.local", time.Now().UnixNano()),
+		Email:        fmt.Sprintf("mem-%d@zoneskill.local", time.Now().UnixNano()),
 		PasswordHash: "integration-placeholder-hash",
 		FullName:     "Memory Tester",
 	})
