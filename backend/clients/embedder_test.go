@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 func TestLocalEmbedderDimension(t *testing.T) {

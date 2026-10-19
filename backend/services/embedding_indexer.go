@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"skill-match/backend/repositories"
+	"zone-skill/backend/repositories"
 )
 
 // embeddingGenerator is the text→vector producer. clients.BedrockEmbedder and

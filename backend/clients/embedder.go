@@ -7,7 +7,7 @@ import (
 	"math"
 	"strings"
 
-	"skill-match/backend/models"
+	"zone-skill/backend/models"
 )
 
 // EmbeddingGenerator produces a fixed-dimension vector for a piece of text.
@@ -98,23 +98,4 @@ func normalize(vec []float32) {
 	}
 }
 
-// BedrockEmbedder adapts BedrockClient.GenerateEmbedding to the
-// EmbeddingGenerator interface by binding a fixed embed model id at
-// construction.
-type BedrockEmbedder struct {
-	client  *BedrockClient
-	modelID string
-}
 
-// NewBedrockEmbedder builds a Bedrock-backed EmbeddingGenerator.
-func NewBedrockEmbedder(client *BedrockClient, modelID string) (*BedrockEmbedder, error) {
-	if client == nil || strings.TrimSpace(modelID) == "" {
-		return nil, fmt.Errorf("bedrock embedder requires a client and embed model id")
-	}
-	return &BedrockEmbedder{client: client, modelID: modelID}, nil
-}
-
-// Generate embeds text via Amazon Bedrock Titan.
-func (b *BedrockEmbedder) Generate(ctx context.Context, text string) ([]float32, error) {
-	return b.client.GenerateEmbedding(ctx, b.modelID, text)
-}

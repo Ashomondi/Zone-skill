@@ -28,7 +28,7 @@ func (h *RecommendationHandler) GetPersonalizedRecommendations(w http.ResponseWr
 	requestingUserID, ok := middleware.GetUserID(r)
 	if !ok {
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusUnauthorized)
 		_ = json.NewEncoder(w).Encode(map[string]string{"error": "authentication required"})
 		return
 	}
