@@ -12,6 +12,8 @@ type Config struct {
 	StorageDir    string
 	AllowedOrigin string
 
+	GoogleClientID string
+
 	GeminiAPIKey string
 	GeminiModel  string
 }
@@ -36,6 +38,8 @@ func Load() (*Config, error) {
 		JWTSecret:     jwtSecret,
 		StorageDir:    getEnv("STORAGE_DIR", "./data/resumes"),
 		AllowedOrigin: getEnv("CORS_ALLOWED_ORIGIN", "http://localhost:3000,http://localhost:5173"),
+
+		GoogleClientID: getEnv("GOOGLE_CLIENT_ID", ""),
 
 		GeminiAPIKey: getEnv("GEMINI_API_KEY", ""),
 		GeminiModel:  getEnv("GEMINI_MODEL", "gemini-2.5-flash"),

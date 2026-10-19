@@ -19,18 +19,13 @@ import (
 // Sentinel errors. Services should compare against these with errors.Is
 // rather than inspecting driver-specific error types.
 var (
-	ErrUserNotFound     = errors.New("repositories: user not found")
-	ErrUserEmailTaken   = errors.New("repositories: email already registered")
-	ErrInvalidUserInput = errors.New("repositories: invalid user input")
+	ErrUserNotFound          = errors.New("repositories: user not found")
+	ErrUserEmailTaken        = errors.New("repositories: email already registered")
+	ErrGoogleAccountConflict = errors.New("repositories: google account already linked")
+	ErrInvalidUserInput      = errors.New("repositories: invalid user input")
 )
 
 // User is the persistence-layer representation of a user row.
-//
-// NOTE: models.User (Issue 3, owned by Ashley) is expected to become the
-// canonical type once it lands. This struct mirrors the schema in
-// migrations/001_initial_schema.sql and should be replaced by a type alias
-// to models.User (or the repository methods updated to accept/return it) as
-// soon as that file exists, to avoid two divergent definitions.
 type User struct {
 	ID           string    `json:"id"`
 	Email        string    `json:"email"`
@@ -39,6 +34,9 @@ type User struct {
 	IsActive     bool      `json:"isActive"`
 	CreatedAt    time.Time `json:"createdAt"`
 	UpdatedAt    time.Time `json:"updatedAt"`
+	GoogleID     string    `json:"googleId,omitempty"`
+	AuthProvider string    `json:"authProvider"`
+	AvatarURL    string    `json:"avatarUrl,omitempty"`
 }
 
 // UserRepository provides persistence operations for users backed by
@@ -53,9 +51,14 @@ func NewUserRepository(db *pgxpool.Pool) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-// Create inserts a new user and returns the row as persisted (including
-// generated ID and timestamps). Email is normalized to lowercase to match
-// the schema's case-insensitivity constraint.
+// userColumns is shared by every query that returns a full user row.
+const userColumns = `id, email, COALESCE(password_hash, '') AS password_hash, full_name,
+	is_active, created_at, updated_at, COALESCE(google_id, '') AS google_id,
+	auth_provider, COALESCE(avatar_url, '') AS avatar_url`
+
+// Create inserts a new local (email/password) user and returns the row as
+// persisted. Email is normalized to lowercase to match the schema's
+// case-insensitivity constraint.
 //
 // Returns ErrUserEmailTaken if the email is already registered.
 func (r *UserRepository) Create(ctx context.Context, u *User) (*User, error) {
@@ -63,35 +66,60 @@ func (r *UserRepository) Create(ctx context.Context, u *User) (*User, error) {
 		return nil, fmt.Errorf("%w: email and password_hash are required", ErrInvalidUserInput)
 	}
 
-	const q = `
-		INSERT INTO users (email, password_hash, full_name)
-		VALUES ($1, $2, $3)
-		RETURNING id, email, password_hash, full_name, is_active, created_at, updated_at`
+	q := fmt.Sprintf(`
+		INSERT INTO users (email, password_hash, full_name, auth_provider)
+		VALUES ($1, $2, $3, 'local')
+		RETURNING %s`, userColumns)
 
 	email := strings.ToLower(strings.TrimSpace(u.Email))
 
 	row := r.db.QueryRow(ctx, q, email, u.PasswordHash, u.FullName)
-
-	out := &User{}
-	if err := row.Scan(&out.ID, &out.Email, &out.PasswordHash, &out.FullName,
-		&out.IsActive, &out.CreatedAt, &out.UpdatedAt); err != nil {
+	out, err := scanUser(row)
+	if err != nil {
 		if isUniqueViolation(err) {
 			return nil, ErrUserEmailTaken
 		}
 		return nil, fmt.Errorf("repositories: create user: %w", err)
 	}
+	return out, nil
+}
 
+// CreateGoogleUser inserts a user that authenticates through Google. The
+// password_hash stays NULL, which is why the migration makes that column
+// nullable.
+func (r *UserRepository) CreateGoogleUser(ctx context.Context, u *User) (*User, error) {
+	if u == nil || strings.TrimSpace(u.Email) == "" || strings.TrimSpace(u.GoogleID) == "" {
+		return nil, fmt.Errorf("%w: email and google_id are required", ErrInvalidUserInput)
+	}
+
+	q := fmt.Sprintf(`
+		INSERT INTO users (email, full_name, google_id, auth_provider, avatar_url)
+		VALUES ($1, $2, $3, 'google', $4)
+		RETURNING %s`, userColumns)
+
+	email := strings.ToLower(strings.TrimSpace(u.Email))
+
+	row := r.db.QueryRow(ctx, q, email, u.FullName, u.GoogleID, u.AvatarURL)
+	out, err := scanUser(row)
+	if err != nil {
+		switch {
+		case isUniqueViolation(err):
+			// Distinguish a duplicate email from a duplicate google_id.
+			if existing, lookupErr := r.GetByGoogleID(ctx, u.GoogleID); lookupErr == nil && existing != nil {
+				return nil, ErrGoogleAccountConflict
+			}
+			return nil, ErrUserEmailTaken
+		default:
+			return nil, fmt.Errorf("repositories: create google user: %w", err)
+		}
+	}
 	return out, nil
 }
 
 // GetByID fetches a user by primary key. Returns ErrUserNotFound if no row
 // matches.
 func (r *UserRepository) GetByID(ctx context.Context, id string) (*User, error) {
-	const q = `
-		SELECT id, email, password_hash, full_name, is_active, created_at, updated_at
-		FROM users
-		WHERE id = $1`
-
+	q := fmt.Sprintf(`SELECT %s FROM users WHERE id = $1`, userColumns)
 	return r.scanOne(ctx, q, id)
 }
 
@@ -99,12 +127,42 @@ func (r *UserRepository) GetByID(ctx context.Context, id string) (*User, error) 
 // ErrUserNotFound if no row matches. This is the primary lookup used by
 // the auth login flow.
 func (r *UserRepository) GetByEmail(ctx context.Context, email string) (*User, error) {
-	const q = `
-		SELECT id, email, password_hash, full_name, is_active, created_at, updated_at
-		FROM users
-		WHERE email = $1`
-
+	q := fmt.Sprintf(`SELECT %s FROM users WHERE email = $1`, userColumns)
 	return r.scanOne(ctx, q, strings.ToLower(strings.TrimSpace(email)))
+}
+
+// GetByGoogleID fetches a user by the stable Google subject identifier.
+func (r *UserRepository) GetByGoogleID(ctx context.Context, googleID string) (*User, error) {
+	q := fmt.Sprintf(`SELECT %s FROM users WHERE google_id = $1`, userColumns)
+	return r.scanOne(ctx, q, googleID)
+}
+
+// LinkGoogleAccount attaches a Google identity to an existing local account.
+// It refuses to overwrite an account that is already linked to a different
+// Google identity.
+func (r *UserRepository) LinkGoogleAccount(ctx context.Context, userID, googleID, avatarURL string) (*User, error) {
+	q := fmt.Sprintf(`
+		UPDATE users
+		SET google_id = $1,
+		    auth_provider = CASE WHEN auth_provider = 'local' THEN 'both' ELSE auth_provider END,
+		    avatar_url = COALESCE(NULLIF($2, ''), avatar_url),
+		    updated_at = now()
+		WHERE id = $3 AND (google_id IS NULL OR google_id = $1)
+		RETURNING %s`, userColumns)
+
+	row := r.db.QueryRow(ctx, q, googleID, avatarURL, userID)
+	out, err := scanUser(row)
+	if err != nil {
+		switch {
+		case errors.Is(err, pgx.ErrNoRows):
+			return nil, ErrGoogleAccountConflict
+		case isUniqueViolation(err):
+			return nil, ErrGoogleAccountConflict
+		default:
+			return nil, fmt.Errorf("repositories: link google account: %w", err)
+		}
+	}
+	return out, nil
 }
 
 // UpdatePassword updates a user's password hash and bumps updated_at.
@@ -169,9 +227,7 @@ func (r *UserRepository) Delete(ctx context.Context, id string) error {
 func (r *UserRepository) scanOne(ctx context.Context, query string, args ...any) (*User, error) {
 	row := r.db.QueryRow(ctx, query, args...)
 
-	u := &User{}
-	err := row.Scan(&u.ID, &u.Email, &u.PasswordHash, &u.FullName,
-		&u.IsActive, &u.CreatedAt, &u.UpdatedAt)
+	u, err := scanUser(row)
 	switch {
 	case err == nil:
 		return u, nil
@@ -180,6 +236,19 @@ func (r *UserRepository) scanOne(ctx context.Context, query string, args ...any)
 	default:
 		return nil, fmt.Errorf("repositories: query user: %w", err)
 	}
+}
+
+// scanUser maps a user row (using userColumns ordering) into a User.
+func scanUser(row pgx.Row) (*User, error) {
+	u := &User{}
+	if err := row.Scan(
+		&u.ID, &u.Email, &u.PasswordHash, &u.FullName,
+		&u.IsActive, &u.CreatedAt, &u.UpdatedAt,
+		&u.GoogleID, &u.AuthProvider, &u.AvatarURL,
+	); err != nil {
+		return nil, err
+	}
+	return u, nil
 }
 
 // isUniqueViolation reports whether err is a PostgreSQL unique constraint

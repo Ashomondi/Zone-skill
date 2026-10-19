@@ -38,6 +38,22 @@ export function useAuth() {
     }
   }, []);
 
+  const googleLogin = useCallback(async (credential: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await authService.googleLogin(credential);
+      setToken(data.token);
+      setUser(data.user);
+      return data;
+    } catch (err: any) {
+      setError(err.message || 'An error occurred during Google sign-in');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const register = useCallback(async (credentials: RegisterCredentials) => {
     setLoading(true);
     setError(null);
@@ -65,6 +81,7 @@ export function useAuth() {
     loading,
     error,
     login,
+    googleLogin,
     register,
     logout,
     isAuthenticated: !!token && !!user,

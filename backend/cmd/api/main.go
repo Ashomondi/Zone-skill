@@ -45,9 +45,18 @@ func main() {
 		}
 		log.Println("database migrations up to date")
 
+		var googleVerifiers []services.GoogleTokenVerifier
+		if cfg.GoogleClientID != "" {
+			googleVerifiers = append(googleVerifiers, services.NewGoogleIDTokenVerifier(cfg.GoogleClientID))
+			log.Println("INFO: Google sign-in enabled")
+		} else {
+			log.Println("WARNING: GOOGLE_CLIENT_ID not set — Google sign-in disabled")
+		}
+
 		authService := services.NewAuthService(
 			repositories.NewUserRepository(pool),
 			jwtManager,
+			googleVerifiers...,
 		)
 		routes.RegisterAuth(mux, handlers.NewAuthHandler(authService))
 
