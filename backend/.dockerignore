@@ -5,3 +5,4 @@ Dockerfile
 .env.local
 coverage.out
 tmp_s3check
+api
