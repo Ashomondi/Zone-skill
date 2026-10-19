@@ -6,3 +6,4 @@ Dockerfile
 coverage.out
 tmp_s3check
 api
+data/

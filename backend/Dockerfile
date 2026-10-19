@@ -7,9 +7,13 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags='-s -w' -o /out/zoneskill-api ./cmd/api
 
 FROM alpine:3.21
-RUN adduser -D -H -u 10001 app
+RUN apk --no-cache add ca-certificates && \
+    adduser -D -u 10001 app
 WORKDIR /app
-COPY --from=build /out/zoneskill-api /app/zoneskill-api
+RUN mkdir -p /app/data /data && \
+    chown -R app:app /app /data
+COPY --from=build --chown=app:app /out/zoneskill-api /app/zoneskill-api
 USER app
 EXPOSE 8080
 ENTRYPOINT ["/app/zoneskill-api"]
+
