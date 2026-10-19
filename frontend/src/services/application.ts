@@ -1,3 +1,5 @@
+import { getAuthHeaders } from '../utils/auth';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 export type ApplicationStatus = 'applied' | 'screening' | 'interview' | 'offer' | 'rejected' | 'withdrawn';
@@ -22,21 +24,18 @@ const requestError = async (response: Response, fallback: string) => { const bod
 
 export const applicationService = {
   async create(jobId: string, tailoredCv?: string): Promise<Application> {
-    const token = localStorage.getItem("token");
-    const response = await fetch(API_BASE_URL + "/applications", { method: "POST", headers: { "Content-Type": "application/json", ...(token ? { Authorization: "Bearer " + token } : {}) }, body: JSON.stringify({ job_id: jobId, tailored_cv: tailoredCv || '' }) });
+    const response = await fetch(API_BASE_URL + "/applications", { method: "POST", headers: { "Content-Type": "application/json", ...getAuthHeaders() }, body: JSON.stringify({ job_id: jobId, tailored_cv: tailoredCv || '' }) });
     if (!response.ok) throw new Error(await requestError(response, "Application could not be submitted."));
     return normalize(await response.json());
   },
 
   async updateStatus(id: string, status: ApplicationStatus): Promise<Application> {
-    const token = localStorage.getItem("token");
-    const response = await fetch(API_BASE_URL + "/applications/" + encodeURIComponent(id), { method: "PUT", headers: { "Content-Type": "application/json", ...(token ? { Authorization: "Bearer " + token } : {}) }, body: JSON.stringify({ status }) });
+    const response = await fetch(API_BASE_URL + "/applications/" + encodeURIComponent(id), { method: "PUT", headers: { "Content-Type": "application/json", ...getAuthHeaders() }, body: JSON.stringify({ status }) });
     if (!response.ok) throw new Error(await requestError(response, "Application status could not be updated."));
     return normalize(await response.json());
   },
   async list(): Promise<Application[]> {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/applications`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+    const response = await fetch(`${API_BASE_URL}/applications`, { headers: getAuthHeaders() });
     const body = await response.json().catch(() => null);
     if (!response.ok) throw new Error(body?.error || body?.message || 'Applications could not be loaded.');
     const items = Array.isArray(body) ? body : body?.applications ?? body?.data ?? [];

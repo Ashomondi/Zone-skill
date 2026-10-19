@@ -1,3 +1,5 @@
+import { getAuthHeaders } from '../utils/auth';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 export const ACCEPTED_RESUME_TYPES = [
@@ -24,10 +26,7 @@ export interface Resume {
 
 export const isResumeReady = (resume?: Resume | null): resume is Resume => resume?.status === 'ready';
 
-const authHeaders = (): Record<string, string> => {
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+const authHeaders = getAuthHeaders;
 
 const mapStatus = (status: string): ResumeStatus => {
   const value = String(status || 'uploaded').toLowerCase();
@@ -69,8 +68,10 @@ export const resumeService = {
 
       xhr.open('POST', `${API_BASE_URL}/resumes`, true);
 
-      const token = localStorage.getItem('token');
-      if (token) xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+      const headers = getAuthHeaders();
+      Object.entries(headers).forEach(([key, value]) => {
+        xhr.setRequestHeader(key, value);
+      });
 
       if (xhr.upload && onProgress) {
         xhr.upload.onprogress = (event) => {

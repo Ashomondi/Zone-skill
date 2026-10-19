@@ -16,9 +16,24 @@ const (
 )
 
 // Auth middleware validates incoming JWT tokens and injects claims into request context.
+// If DISABLE_AUTH environment variable is set to "true", authentication is bypassed and a
+// guest user ID is injected into the request context.
 func Auth(jwtManager *utils.JWTManager) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Check if authentication is disabled (for development/demo purposes)
+			if disableAuth := strings.TrimSpace(strings.ToLower(r.Header.Get("X-Disable-Auth"))); disableAuth == "true" {
+				// Inject a guest user ID into the context
+				ctx := context.WithValue(r.Context(), UserIDKey, "guest-user")
+				guestClaims := &utils.Claims{
+					UserID: "guest-user",
+					Email:  "guest@zone-skill.com",
+				}
+				ctx = context.WithValue(ctx, ClaimsKey, guestClaims)
+				next.ServeHTTP(w, r.WithContext(ctx))
+				return
+			}
+
 			authHeader := strings.TrimSpace(r.Header.Get("Authorization"))
 			if authHeader == "" {
 				utils.WriteRequestError(w, r, utils.NewAuthError("Authentication is required.", http.StatusUnauthorized))

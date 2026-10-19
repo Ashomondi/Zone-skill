@@ -14,6 +14,22 @@ export function useAuth() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Check if authentication is disabled via environment variable
+    const disableAuth = import.meta.env.VITE_DISABLE_AUTH === 'true';
+    
+    if (disableAuth) {
+      // Auto-login with guest user
+      const guestUser: User = {
+        id: 'guest-user',
+        email: 'guest@zone-skill.com',
+        fullName: 'Guest User',
+      };
+      setUser(guestUser);
+      setToken('guest-token');
+      setLoading(false);
+      return;
+    }
+
     const storedToken = authService.getToken();
     const storedUser = authService.getCurrentUser();
     if (storedToken && storedUser) {

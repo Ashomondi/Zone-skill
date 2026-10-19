@@ -1,3 +1,5 @@
+import { getAuthHeaders } from '../utils/auth';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 export interface SavedJob {
@@ -12,10 +14,7 @@ export interface SavedJob {
   savedAt?: string;
 }
 
-const headers = (): Record<string, string> => {
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+const headers = getAuthHeaders;
 
 const normalizeSavedJob = (item: any): SavedJob => {
   const job = item.job || item.job_details || item;

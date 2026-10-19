@@ -1,3 +1,5 @@
+import { getAuthHeaders } from '../utils/auth';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 export interface Job {
@@ -55,8 +57,7 @@ const normalizeJob = (item: any): Job => ({
 
 export const jobsService = {
   async get(id: string): Promise<Job> {
-    const token = localStorage.getItem("token");
-    const response = await fetch(API_BASE_URL + "/jobs/" + encodeURIComponent(id), { headers: token ? { Authorization: "Bearer " + token } : {} });
+    const response = await fetch(API_BASE_URL + "/jobs/" + encodeURIComponent(id), { headers: getAuthHeaders() });
     const body = await response.json().catch(() => null);
     if (!response.ok) throw new Error(body?.error?.message || body?.error || body?.message || "Job could not be loaded.");
     return normalizeJob(body?.data ?? body);
@@ -69,9 +70,8 @@ export const jobsService = {
     if (params.seniority) searchParams.set('seniority', params.seniority);
     if (params.workType) searchParams.set('work_type', params.workType);
 
-    const token = localStorage.getItem('token');
     const response = await fetch(`${API_BASE_URL}/jobs/search${searchParams.size ? `?${searchParams}` : ''}`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: getAuthHeaders(),
     });
     const body = await response.json().catch(() => null);
     if (!response.ok) throw new Error(body?.error || body?.message || 'Jobs could not be loaded.');

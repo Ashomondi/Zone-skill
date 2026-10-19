@@ -1,3 +1,5 @@
+import { getAuthHeaders } from '../utils/auth';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 export interface Profile {
@@ -16,10 +18,7 @@ export interface ProfileInput {
   resumeUrl: string;
 }
 
-const authHeaders = (): Record<string, string> => {
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+const authHeaders = getAuthHeaders;
 
 const errorMessage = (body: any, fallback: string): string =>
   body?.error?.message || body?.error || body?.message || fallback;
