@@ -35,7 +35,7 @@ func Load() (*Config, error) {
 		DatabaseURL:   dbURL,
 		JWTSecret:     jwtSecret,
 		StorageDir:    getEnv("STORAGE_DIR", "./data/resumes"),
-		AllowedOrigin: getEnv("CORS_ALLOWED_ORIGIN", "http://localhost:5173"),
+		AllowedOrigin: getEnv("CORS_ALLOWED_ORIGIN", "http://localhost:3000,http://localhost:5173"),
 
 		GeminiAPIKey: getEnv("GEMINI_API_KEY", ""),
 		GeminiModel:  getEnv("GEMINI_MODEL", "gemini-2.5-flash"),
